@@ -6,22 +6,43 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table
 import plotly.express as px
 import pandas as pd
+import urllib3
+from urllib3 import request
+
+# to handle certificate verification
+import certifi
+
+# to manage json data
+import json
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
+# handle certificate verification and SSL warnings:
+# reference https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl
+http = urllib3.PoolManager(
+    cert_reqs='CERT_REQUIRED',
+    ca_certs=certifi.where())
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+# get data from the API; replace url with target source
+url = 'https://maps2.dcgis.dc.gov/dcgis/rest/services/FEEDS/MPD/MapServer/2/query?where=1%3D1&outFields=*&outSR=4326&f=json'
+r = http.request('GET', url)
+
+# decode json data into a dict object
+data = json.loads(r.data.decode('utf-8'))
+
+df = pd.json_normalize(data, 'features')
+# print the first rows and header of the dataframe
+#df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/solar.csv')
+
+
+
+#fig = px.bar(df, x=df.index, y="Amount", color="City", barmode="group")
 
 app.layout = html.Div(children=[
     html.H1(children='A Dashboard'),
@@ -30,10 +51,15 @@ app.layout = html.Div(children=[
         Dash: A web application framework for Python.
     '''),
 
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    )
+    #dcc.Graph(
+       # id='example-graph',
+       # figure=fig
+    #)
+    dash_table.DataTable(
+    id='table',
+    columns=[{"name": i, "id": i} for i in df.columns],
+    data=df.to_dict('records'),
+)
 ])
 
 if __name__ == '__main__':
