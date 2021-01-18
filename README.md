@@ -1,2 +1,3 @@
 # dash_app
-web app
+web app built with dash
+
