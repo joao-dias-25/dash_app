@@ -22,6 +22,8 @@ import json
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+
 
 # handle certificate verification and SSL warnings:
 # reference https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl
