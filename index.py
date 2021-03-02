@@ -5,6 +5,7 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 from app import app
+from Layouts import navbar, SidePanel
 from app import server
 import dash
 import dash_core_components as dcc
@@ -55,6 +56,9 @@ fig.add_trace(go.Scatter(x=df.index, y=df['ratio_ada_eth'],
 fig.add_trace(go.Scatter(x=df.index, y=df['ratio_xmr_eth'],
                              mode='lines',
                              name='ratio xmr/eth'), row=1, col=2)
+fig.add_trace(go.Scatter(x=df.index, y=df['ratio_bnb_eth'],
+                             mode='lines',
+                             name='ratio bnb/eth'), row=1, col=2)
 fig2 = make_subplots(rows=1, cols=4,
                      specs=[[{'type':'domain'}, {'type':'xy'}, {'type':'xy'},{'type':'domain'}]],
                      subplot_titles=['cryptocurrencies dominance', 'cryptocurrencies volume',
@@ -84,21 +88,21 @@ fig2.update(layout_showlegend=False)
    #              dict(text='stablecoins', x=0.48, y=0.5, font_size=16, showarrow=False)])
 #cores = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen', 'lightblue']
 
-#fig2.update_traces(hole=.4,  marker=dict( line=dict(color='#000000', width=2)))
+fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
 
 
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    html.H1(children='A Dashboard',  style={
-        'textAlign': 'center',
-        'color': colors['text']
-    }),
 
-    html.Div(children='on crypto currencies', style={
-        'textAlign': 'center',
-        'color': colors['text'],
+    html.Div([navbar.Navbar()
+            #, SidePanel.layout
+            , dcc.Graph(
+        id='segundo-graph',
+        figure=fig2
+    )
 
-    }),
+            ]),
+
     #dcc.Dropdown(
     #    id='escolhas',
     #    options=[{'label': i, 'value': i} for i in ['1 option', '2 option', '3 option']],
@@ -111,16 +115,18 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
     dcc.Graph(
         id='example-graph',
-        figure=fig2
-    ),
-    dcc.Graph(
-        id='segundo-graph',
         figure=fig
     ),
+
     dash_table.DataTable(
     id='table',
-    columns=[{"name": i, "id": i} for i in df_info.columns],
+    columns=[{"name": i, "id": i} for i in ['name','market_cap_rank','current_price','market_cap','price_change_percentage_24h','market_cap_change_percentage_24h']],
     data=df_info.to_dict('records')),
+
+    html.H3(children='A Dashboard on crypto currencies', style={
+        'textAlign': 'center',
+        'color': colors['text']
+    })
 
 ])
 

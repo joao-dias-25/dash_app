@@ -57,6 +57,7 @@ df['combine_mk']=df.sum(axis=1)
 df['ratio_eth_btc']= df['marketcap_ethereum']/df['marketcap_bitcoin']
 df['ratio_ada_eth']= df['marketcap_cardano']/df['marketcap_ethereum']
 df['ratio_xmr_eth']= df['marketcap_monero']/df['marketcap_ethereum']
+df['ratio_bnb_eth']= df['marketcap_binancecoin']/df['marketcap_ethereum']
 
 def merge_inf(moedas):
     coins_inf = {}
