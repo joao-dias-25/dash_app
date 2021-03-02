@@ -28,17 +28,21 @@ df = Api.df
 
 fig = make_subplots(rows=1, cols=2)
 # Add traces
-fig.add_trace(go.Scatter(x=df.index, y=df['price'],
+fig.add_trace(go.Scatter(x=df.index, y=df['marketcap_x'],
                              mode='lines',
-                             name='price'), row=1, col=1)
-fig.add_trace(go.Scatter(x=df.index, y=df['volume'],
+                             name='bitcoin'), row=1, col=1)
+fig.add_trace(go.Scatter(x=df.index, y=df['marketcap_y'],
                              mode='lines',
-                             name='Vol'),row=1, col=2)
+                             name='ethereum'),row=1, col=1)
 #fig.update_layout(barmode='group',
  #                bargap=0)
-fig.add_trace(go.Scatter(x=df.index, y=df['marketcap'],
+fig.add_trace(go.Scatter(x=df.index, y=df['combine_mk'],
                              mode='lines',
-                             name='market_cap'), row=1, col=2)
+                             name='combine_market_cap'), row=1, col=1)
+
+fig.add_trace(go.Scatter(x=df.index, y=df['ratio_mk'],
+                             mode='lines',
+                             name='ratio eth/btc'), row=1, col=2)
 
 
 
