@@ -20,7 +20,7 @@ http = urllib3.PoolManager(
     ca_certs=certifi.where())
 
 
-coins=['bitcoin','ethereum']
+coins=['bitcoin','ethereum','cardano']
 coins_data={}
 
 for coin in coins:
@@ -36,9 +36,10 @@ for coin in coins:
 
 df1 = pd.DataFrame(coins_data['bitcoin']['market_caps'], columns=['time', 'marketcap'])
 df2 = pd.DataFrame(coins_data['ethereum']['market_caps'], columns=['time', 'marketcap'])
-
-df = df1.merge(df2,on='time')#.merge(df3,on='time')
-df['combine_mk']=df['marketcap_x']+df['marketcap_y']
-df['ratio_mk']= df['marketcap_y']/df['marketcap_x']
+df3 = pd.DataFrame(coins_data['cardano']['market_caps'], columns=['time', 'marketcap'])
+df = df1.merge(df2,on='time').merge(df3,on='time', how='left')
+df['combine_mk']=df['marketcap_x']+df['marketcap_y']+df['marketcap']
+df['ratio_eth_btc']= df['marketcap_y']/df['marketcap_x']
+df['ratio_ada_eth']= df['marketcap']/df['marketcap_y']
 df['time']= pd.to_datetime(df['time'], unit='ms')
 df.set_index('time', inplace=True)

@@ -34,15 +34,21 @@ fig.add_trace(go.Scatter(x=df.index, y=df['marketcap_x'],
 fig.add_trace(go.Scatter(x=df.index, y=df['marketcap_y'],
                              mode='lines',
                              name='ethereum'),row=1, col=1)
+fig.add_trace(go.Scatter(x=df.index, y=df['marketcap'],
+                             mode='lines',
+                             name='cardano'),row=1, col=1)
 #fig.update_layout(barmode='group',
  #                bargap=0)
 fig.add_trace(go.Scatter(x=df.index, y=df['combine_mk'],
                              mode='lines',
                              name='combine_market_cap'), row=1, col=1)
 
-fig.add_trace(go.Scatter(x=df.index, y=df['ratio_mk'],
+fig.add_trace(go.Scatter(x=df.index, y=df['ratio_eth_btc'],
                              mode='lines',
                              name='ratio eth/btc'), row=1, col=2)
+fig.add_trace(go.Scatter(x=df.index, y=df['ratio_ada_eth'],
+                             mode='lines',
+                             name='ratio ada/eth'), row=1, col=2)
 
 
 
