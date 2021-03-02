@@ -32,7 +32,7 @@ stable_vol=Api.dfstable_vol
 stablecoins=Api.stablecoins
 stablecoins_info=Api.stablecoins_info
 
-fig = make_subplots(rows=1, cols=2)
+fig = make_subplots(rows=1, cols=2, subplot_titles=['Total Marketcap (top5)', 'Ratios'])
 # Add traces
 
 for coin in coins:
@@ -56,8 +56,10 @@ fig.add_trace(go.Scatter(x=df.index, y=df['ratio_xmr_eth'],
                              mode='lines',
                              name='ratio xmr/eth'), row=1, col=2)
 fig2 = make_subplots(rows=1, cols=4,
-                     specs=[[{'type':'domain'}, {'type':'xy'}, {'type':'xy'},{'type':'domain'}]])
-fig2.add_trace(go.Pie(labels=df_info.name, values=df_info.market_cap, textinfo='label+percent'), row=1, col=1)
+                     specs=[[{'type':'domain'}, {'type':'xy'}, {'type':'xy'},{'type':'domain'}]],
+                     subplot_titles=['cryptocurrencies dominance', 'cryptocurrencies volume',
+                                     'stablecoin volume', 'stablecoin dominance'])
+fig2.add_trace(go.Pie(labels=df_info.name, values=df_info.market_cap, textinfo='label+percent', hole=.3), row=1, col=1)
 
 for coin in coins:
     fig2.add_trace(go.Scatter(x=coin_vol.index, y=coin_vol[f'volume_{coin}'],
@@ -68,18 +70,23 @@ for stablecoin in stablecoins:
     fig2.add_trace(go.Scatter(x=stable_vol.index, y=stable_vol[f'volume_{stablecoin}'],
                              mode='lines',
                              name= stablecoin), row=1, col=3)
-fig2.add_trace(go.Pie(labels=stablecoins_info.name, values=stablecoins_info.market_cap, textinfo='label+percent'), row=1, col=4)
-#cores = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen', 'lightblue']
-#fig2.update_traces(hole=.4,  marker=dict(colors=cores, line=dict(color='#000000', width=2)))
+fig2.add_trace(go.Pie(labels=stablecoins_info.name, values=stablecoins_info.market_cap, textinfo='label+percent', hole=.3), row=1, col=4)
+#fig2.update_layout(
+    # Add annotations in the center of the donut pies.
+ #   annotations=[dict(text='dominance cryptocurrencies', x=0.1, y=0.5, font_size=10, showarrow=False),
+  #               dict(text='dominance stablecoins', x=0.82, y=0.5, font_size=10, showarrow=False)])
+
 
 fig2.update(layout_showlegend=False)
-fig2.update_layout(
+#fig2.update_layout(
     # Add annotations in the center of the donut pies.
-    annotations=[dict(text='dominance', x=0, y=0.5, font_size=16, showarrow=False),
-                 dict(text='stablecoins', x=0.48, y=0.5, font_size=16, showarrow=False)])
+ #   annotations=[dict(text='dominance', x=0, y=0.5, font_size=16, showarrow=False),
+   #              dict(text='stablecoins', x=0.48, y=0.5, font_size=16, showarrow=False)])
+#cores = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen', 'lightblue']
+
+#fig2.update_traces(hole=.4,  marker=dict( line=dict(color='#000000', width=2)))
 
 
-#fig = px.line(df, x=df.index, y=["price",'volume','marketcap'])
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(children='A Dashboard',  style={
@@ -92,11 +99,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'color': colors['text'],
 
     }),
-    dcc.Dropdown(
-        id='escolhas',
-        options=[{'label': i, 'value': i} for i in ['1 option', '2 option', '3 option']],
-        value='2 option'
-    ),
+    #dcc.Dropdown(
+    #    id='escolhas',
+    #    options=[{'label': i, 'value': i} for i in ['1 option', '2 option', '3 option']],
+    #    value='2 option'
+    #),
     html.Div(id='display-value'),
 
     html.Br(),

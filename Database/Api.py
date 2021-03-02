@@ -21,7 +21,7 @@ http = urllib3.PoolManager(
 
 
 coins=['bitcoin','ethereum','cardano','binancecoin','polkadot','monero']
-stablecoins=['tether','usd-coin', 'binance-usd','dai','paxos-standard']
+stablecoins=['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']
 coins_data={}
 stablecoins_data={}
 
