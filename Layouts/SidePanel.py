@@ -70,7 +70,7 @@ layout = html.Div([
                 dcc.Tab(label='Cryptocurrencies Volume', value='tab-2'),
                 dcc.Tab(label='Stablecoins Volume', value='tab-3'),
                 dcc.Tab(label='Bitcoin on Ethereum', value='tab-6'),
-                dcc.Tab(label='rank table', value='tab-4'),
+                dcc.Tab(label='Coins Info', value='tab-4'),
             ])
             , html.Div(id='tabs-content')
         ]), width=10)

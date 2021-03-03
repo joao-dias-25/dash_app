@@ -14,15 +14,16 @@ import pandas as pd
 # import dataframe
 from Database import Api
 
-coins=['bitcoin','ethereum','cardano','binancecoin','polkadot','monero']
+coins=Api.coins
 
-stablecoins=['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']
+stablecoins=Api.stablecoins
 
 df = Api.merge_data(coins,'max')
 df_s = Api.merge_data(stablecoins,'max')
 
 
-fig = make_subplots(rows=1, cols=2, subplot_titles=['Coins total Marketcap (top5)', 'Stablecoins total Marketcap (top6)'])
+fig = make_subplots(rows=1, cols=2, subplot_titles=[f'Coins total Marketcap (Top {len(coins)})',
+                                                    f'Stablecoins total Marketcap (Top {len(stablecoins)})'])
 # Add traces
 
 for coin in coins:

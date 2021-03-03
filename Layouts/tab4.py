@@ -8,15 +8,18 @@ import pandas as pd
 from dash.dependencies import Input, Output
 from app import app
 from Database import Api
-df_info = Api.coin_info
-PAGE_SIZE = 30
+
+coins=Api.btc_tokens
+df_info = Api.merge_inf(coins)
+
+PAGE_SIZE = 20
 layout =html.Div(dash_table.DataTable(
                             id='table-sorting-filtering',
                             columns=[
-                            {"name": i, "id": i} for i in ['name','market_cap_rank','current_price','market_cap','price_change_percentage_24h','market_cap_change_percentage_24h']
+                            {"name": i, "id": i} for i in df_info.columns
                             ],
                             data=df_info.to_dict('records'),
-                            style_table={'height':'750px'
+                            style_table={'height':'350px'
                                 ,'overflowX': 'scroll'},
 style_data_conditional=[
                                 {

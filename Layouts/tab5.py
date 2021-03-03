@@ -14,7 +14,14 @@ import pandas as pd
 # import dataframe
 from Database import Api
 
-df = Api.df
+coins= Api.coins
+df = Api.merge_data(coins,'max')
+
+df['ratio_eth_btc']= df['marketcap_ethereum']/df['marketcap_bitcoin']
+df['ratio_ada_eth']= df['marketcap_cardano']/df['marketcap_ethereum']
+df['ratio_xmr_eth']= df['marketcap_monero']/df['marketcap_ethereum']
+df['ratio_bnb_eth']= df['marketcap_binancecoin']/df['marketcap_ethereum']
+
 
 fig = make_subplots(rows=1, cols=2, subplot_titles=['Ratios against BTC', 'Ratios against ETH'])
 

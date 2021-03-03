@@ -20,7 +20,7 @@ http = urllib3.PoolManager(
     ca_certs=certifi.where())
 
 
-coins=['bitcoin','ethereum','cardano','binancecoin','polkadot','monero']
+coins=['bitcoin','ethereum','cardano','binancecoin','polkadot','litecoin','monero']
 
 stablecoins=['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']
 
@@ -46,13 +46,6 @@ def merge_data(moedas, days):
     df['combine_mk'] = df.sum(axis=1)
     return df
 
-df = merge_data(coins,days='max')
-
-
-df['ratio_eth_btc']= df['marketcap_ethereum']/df['marketcap_bitcoin']
-df['ratio_ada_eth']= df['marketcap_cardano']/df['marketcap_ethereum']
-df['ratio_xmr_eth']= df['marketcap_monero']/df['marketcap_ethereum']
-df['ratio_bnb_eth']= df['marketcap_binancecoin']/df['marketcap_ethereum']
 
 def merge_inf(moedas):
     coins_inf = {}
@@ -69,7 +62,6 @@ def merge_inf(moedas):
         df_info = df_info.append(df1)
     return df_info
 
-coin_info=merge_inf(coins)
 
 def merge_vol(moedas,days):
     coins_data = {}

@@ -23,8 +23,12 @@ fig2 = make_subplots(rows=1, cols=2,
                      specs=[[{'type':'xy'},{'type':'domain'}]],
                      subplot_titles=['Volume', 'Current Dominance'])
 
-fig2.add_trace(go.Pie(labels=df_info.name, values=df_info.market_cap, textinfo='label+percent', hole=.3)
+fig2.add_trace(go.Pie(labels=df_info.name, values=df_info.market_cap,
+                      textinfo='label+percent', hole=.3,
+                      )
                , row=1, col=2)
+fig2.update(layout_showlegend=False)
+
 
 for coin in coins:
     fig2.add_trace(go.Scatter(x=coin_vol.index, y=coin_vol[f'volume_{coin}'],
@@ -32,7 +36,6 @@ for coin in coins:
                              name= coin), row=1, col=1)
 
 
-fig2.update(layout_showlegend=False)
 
 fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
 
