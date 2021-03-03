@@ -21,39 +21,34 @@ http = urllib3.PoolManager(
 
 
 coins=['bitcoin','ethereum','cardano','binancecoin','polkadot','monero']
+
 stablecoins=['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']
-coins_data={}
-stablecoins_data={}
 
-for coin in coins:
-    # get data from the API; replace url with target source
-    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=max&interval=daily'
-    r = http.request('GET', url)
-    # decode json data into a dict object
-    data = json.loads(r.data.decode('utf-8'))
-    coins_data.update({coin: data})
-
-for coin in stablecoins:
-    # get data from the API; replace url with target source
-    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=max&interval=daily'
-    r = http.request('GET', url)
-    # decode json data into a dict object
-    data = json.loads(r.data.decode('utf-8'))
-    stablecoins_data.update({coin: data})
+btc_tokens=['wrapped-bitcoin','renbtc','huobi-btc','sbtc','tbtc']
 
 
-
-def merge_data(moedas):
-    df=pd.DataFrame(coins_data[moedas[0]]['market_caps'], columns=['time', 'marketcap_bitcoin'])
+def merge_data(moedas, days):
+    coins_data = {}
+    #retrive information from Api
+    for coin in moedas:
+        # get data from the API; replace url with target source
+        url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
+        r = http.request('GET', url)
+        # decode json data into a dict object
+        data = json.loads(r.data.decode('utf-8'))
+        coins_data.update({coin: data})
+    df=pd.DataFrame(coins_data[moedas[0]]['market_caps'], columns=['time', f'marketcap_{moedas[0]}'])
     for moeda in moedas[1::]:
         df1=pd.DataFrame(coins_data[moeda]['market_caps'], columns=['time', f'marketcap_{moeda}'])
         df=df.merge(df1,on='time', how='left')
     df['time'] = pd.to_datetime(df['time'], unit='ms')
     df.set_index('time', inplace=True)
+    df['combine_mk'] = df.sum(axis=1)
     return df
-df = merge_data(coins)
 
-df['combine_mk']=df.sum(axis=1)
+df = merge_data(coins,days='max')
+
+
 df['ratio_eth_btc']= df['marketcap_ethereum']/df['marketcap_bitcoin']
 df['ratio_ada_eth']= df['marketcap_cardano']/df['marketcap_ethereum']
 df['ratio_xmr_eth']= df['marketcap_monero']/df['marketcap_ethereum']
@@ -75,16 +70,22 @@ def merge_inf(moedas):
     return df_info
 
 coin_info=merge_inf(coins)
-stablecoins_info= merge_inf(stablecoins)
 
-def merge_vol(moedas, data):
-    df=pd.DataFrame(data[moedas[0]]['total_volumes'], columns=['time', f'volume_{moedas[0]}'])
+def merge_vol(moedas,days):
+    coins_data = {}
+    #retrive information from Api
+    for coin in moedas:
+        # get data from the API; replace url with target source
+        url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
+        r = http.request('GET', url)
+        # decode json data into a dict object
+        data = json.loads(r.data.decode('utf-8'))
+        coins_data.update({coin: data})
+    #dataframe
+    df=pd.DataFrame(coins_data[moedas[0]]['total_volumes'], columns=['time', f'volume_{moedas[0]}'])
     for moeda in moedas[1::]:
-        df1=pd.DataFrame(data[moeda]['total_volumes'], columns=['time', f'volume_{moeda}'])
+        df1=pd.DataFrame(coins_data[moeda]['total_volumes'], columns=['time', f'volume_{moeda}'])
         df=df.merge(df1,on='time', how='left')
     df['time'] = pd.to_datetime(df['time'], unit='ms')
     df.set_index('time', inplace=True)
     return df
-
-df_vol=merge_vol(coins, coins_data)
-dfstable_vol=merge_vol(stablecoins, stablecoins_data)

@@ -5,8 +5,10 @@ def Navbar():
             dbc.NavItem(dbc.NavLink("Home", href="/index")),
             dbc.DropdownMenu(
                 children=[
-                    dbc.DropdownMenuItem("Page 2(not available)", href="#"),
-                    dbc.DropdownMenuItem("Page 3(not available)", href="#"),
+                    dbc.DropdownMenuItem("DeFi", href="https://defipulse.com/"),
+                    dbc.DropdownMenuItem("Top liquidity pools", href="https://pools.fyi/#/"),
+                    dbc.DropdownMenuItem("stablecoin marketcap", href="http://stablecoinwatch.com/"),
+                    dbc.DropdownMenuItem("fiat marketcap", href="https://fiatmarketcap.com/")
                 ],
                 nav=True,
                 in_navbar=True,
