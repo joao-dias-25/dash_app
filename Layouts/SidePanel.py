@@ -10,7 +10,12 @@ from app import app
 
 from Database import Api
 
-df = Api.coins
+coins = Api.coins
+df = Api.merge_data(coins,'max')
+min_p=1
+max_p=len(coins)
+
+
 
 layout = html.Div([
         dbc.Row([dbc.Col(
@@ -18,38 +23,39 @@ layout = html.Div([
            # html.H5('Options'),
 
              html.Div([html.P()
-                           , html.H6('Timeframe (not working)')
+                           , html.H6('Timeframe')
                            , dcc.Dropdown(id='time-drop'
                                           , options=[
-                        {'label': i, 'value': y} for (i,y) in [('alltime', 'max'),
-                                                             ('5years','1825'),
-                                                             ('Year','365'),
-                                                             ('Month','31'),
-                                                             ('week','7')]
+                        {'label': i, 'value': j} for i,j in [('All time','max'),
+                                                             ('5 years',1825),
+                                                             ('2 years',730),
+                                                             ('Year', 365),
+                                                             ('6 Months', 180),
+                                                             ('Month', 31)]
                     ],
-                                          value='alltime',
+                                          value=1825,
                                           multi=False
                                           )
                         ])
-           # , html.Div([html.P()
-           #                , html.H6('rank Slider')
-            #               , dcc.RangeSlider(id='rank-slider'
-             #                                , min=1
-              #                               , max=50
-               #                              , marks={20: 'top20',
-                #                                      50: 'top50',
-                 #                                     }
-                  #                           , value=[0, 50]
-                   #                          )
-
-                    #    ])
             , html.Div([html.P()
-                           , html.H6('Coins (not working)')
+                           , html.H6('Rank slider(not working)')
+                           , dcc.RangeSlider(id='rank-slider'
+                                             , min=min_p
+                                             , max=max_p
+                                             #, marks={20: 'top20',
+                                            #          50: 'top50',
+                                              #        }
+                                             #, value=[0, 50]
+                                             )
+
+                        ])
+            , html.Div([html.P()
+                           , html.H6('Select coins')
                            , dcc.Dropdown(id='coin-drop'
                                           , options=[
-                        {'label': i, 'value': i} for i in df
+                        {'label': i, 'value': i} for i in coins
                     ],
-                                          value=['US'],
+                                          value=['bitcoin','ethereum','cardano'],
                                           multi=True
                                           )
                         ])
@@ -77,3 +83,10 @@ layout = html.Div([
     ])  # end row
 
 ])  # end div
+
+
+#@app.callback(Output('province-drop', 'options'),
+#              [Input('time-drop', 'value')])
+#def set_province_options(time):
+#    days = time
+#    return days

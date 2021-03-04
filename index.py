@@ -22,9 +22,8 @@ colors = {
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
 
             navbar.Navbar(),
-            #, SidePanel.layout
             SidePanel.layout,
-            html.Div(id='display-value'),
+            #html.Div(id='display-value'),
 
             html.Br(),
 
@@ -32,9 +31,9 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'textAlign': 'center',
             'color': colors['text']
              }),
-            html.Footer(children='''Donations towards running cost is appreciated ;)\n
-                                 bc1qhl0um3rgwm64unykdc8wces2c6vcy59qtf6kja''',  id='nota',
-                        style={'textAlign': 'center',
+            html.Footer(children=['Donations are appreciated :)    bc1qhl0um3rgwm64unykdc8wces2c6vcy59qtf6kja']
+                        ,  id='nota',
+                        style={'textAlign': ['center'],
                                'color': colors['text']
                                                         }),
             html.Footer(children='© 2021 Crypto dashboard One', id='footer',

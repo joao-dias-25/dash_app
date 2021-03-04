@@ -35,16 +35,19 @@ def merge_data(moedas, days):
         url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
         r = http.request('GET', url)
         # decode json data into a dict object
-        data = json.loads(r.data.decode('utf-8'))
+        data = json.loads(r.data)#.decode('utf-8'))
         coins_data.update({coin: data})
-    df=pd.DataFrame(coins_data[moedas[0]]['market_caps'], columns=['time', f'marketcap_{moedas[0]}'])
+    df=pd.DataFrame(coins_data[moedas[0]]['market_caps'], columns=['time', f'{moedas[0]}'])
     for moeda in moedas[1::]:
-        df1=pd.DataFrame(coins_data[moeda]['market_caps'], columns=['time', f'marketcap_{moeda}'])
+        df1=pd.DataFrame(coins_data[moeda]['market_caps'], columns=['time', f'{moeda}'])
         df=df.merge(df1,on='time', how='left')
     df['time'] = pd.to_datetime(df['time'], unit='ms')
     df.set_index('time', inplace=True)
-    df['combine_mk'] = df.sum(axis=1)
+    #df['combine_mk'] = df.sum(axis=1)
     return df
+
+df_mk=merge_data(coins,'max')
+dfs_mk=merge_data(stablecoins,'max')
 
 
 def merge_inf(moedas):
@@ -54,7 +57,7 @@ def merge_inf(moedas):
         r = http.request('GET', url)
 
         # decode json data into a dict object
-        data = json.loads(r.data.decode('utf-8'))
+        data = json.loads(r.data)#.decode('utf-8'))
         coins_inf.update({moeda: data})
     df_info = pd.json_normalize(coins_inf, record_path=moedas[0])
     for moeda in moedas[1::]:
@@ -62,6 +65,8 @@ def merge_inf(moedas):
         df_info = df_info.append(df1)
     return df_info
 
+df_i=merge_inf(coins)
+dfs_i=merge_inf(stablecoins)
 
 def merge_vol(moedas,days):
     coins_data = {}
@@ -71,7 +76,7 @@ def merge_vol(moedas,days):
         url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
         r = http.request('GET', url)
         # decode json data into a dict object
-        data = json.loads(r.data.decode('utf-8'))
+        data = json.loads(r.data)#.decode('utf-8'))
         coins_data.update({coin: data})
     #dataframe
     df=pd.DataFrame(coins_data[moedas[0]]['total_volumes'], columns=['time', f'volume_{moedas[0]}'])
@@ -81,3 +86,6 @@ def merge_vol(moedas,days):
     df['time'] = pd.to_datetime(df['time'], unit='ms')
     df.set_index('time', inplace=True)
     return df
+
+df_v=merge_vol(coins,'max')
+dfs_v=merge_vol(stablecoins, 'max')

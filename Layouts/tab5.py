@@ -14,31 +14,44 @@ import pandas as pd
 # import dataframe
 from Database import Api
 
-coins= Api.coins
-df = Api.merge_data(coins,'max')
 
-df['ratio_eth_btc']= df['marketcap_ethereum']/df['marketcap_bitcoin']
-df['ratio_ada_eth']= df['marketcap_cardano']/df['marketcap_ethereum']
-df['ratio_xmr_eth']= df['marketcap_monero']/df['marketcap_ethereum']
-df['ratio_bnb_eth']= df['marketcap_binancecoin']/df['marketcap_ethereum']
+df2 = Api.df_mk
 
 
-fig = make_subplots(rows=1, cols=2, subplot_titles=['Ratios against BTC', 'Ratios against ETH'])
+layout = html.Div(
+            id='table-paging-ratio-graph-container'
+                                                )
 
-# Add traces
-fig.add_trace(go.Scatter(x=df.index, y=df['ratio_eth_btc'],
+@app.callback(Output('table-paging-ratio-graph-container', "children"),
+        [Input('time-drop', 'value')
+        , Input('coin-drop', 'value')
+        ])
+
+def update_graph(time,lista):
+    if str == type(time):
+        df = df2
+
+    else:
+        df = df2.tail(time)
+
+    coins = lista
+    coins = [x for x in coins if (x != 'bitcoin' and x !='ethereum')]
+
+
+    fig = make_subplots(rows=1, cols=2, subplot_titles=['Ratios against BTC', 'Ratios against ETH'])
+
+    # Add traces
+    fig.add_trace(go.Scatter(x=df.index, y=df['ethereum']/df['bitcoin'],
                              mode='lines',
                              name='ratio eth/btc'), row=1, col=1)
-fig.add_trace(go.Scatter(x=df.index, y=df['ratio_ada_eth'],
-                             mode='lines',
-                             name='ratio ada/eth'), row=1, col=2)
-fig.add_trace(go.Scatter(x=df.index, y=df['ratio_xmr_eth'],
-                             mode='lines',
-                             name='ratio xmr/eth'), row=1, col=2)
-fig.add_trace(go.Scatter(x=df.index, y=df['ratio_bnb_eth'],
-                             mode='lines',
-                             name='ratio bnb/eth'), row=1, col=2)
 
-layout = html.Div(dcc.Graph(
+    for coin in coins:
+        fig.add_trace(go.Scatter(x=df.index, y=df[f'{coin}']/df['ethereum'],
+                             mode='lines',
+                             name=f'ratio {coin}/eth'), row=1, col=2)
+
+
+
+    return html.Div(dcc.Graph(
                   id='example-graph',
                   figure=fig))

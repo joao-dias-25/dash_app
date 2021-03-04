@@ -1,3 +1,4 @@
 # dash_app
-web app built with dash
+
+crypto currencies data web app built with dash
 
