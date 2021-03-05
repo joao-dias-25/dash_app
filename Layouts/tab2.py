@@ -60,6 +60,7 @@ def update_graph(time,lista):
 
     fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
 
-    return html.Div(dcc.Graph(
-                  id='segundo-graph',
-                  figure=fig2))
+    return html.Div(#html.H6('Off-chain Volume')
+                    dcc.Graph(
+                      id='segundo-graph',
+                      figure=fig2))

@@ -5,7 +5,7 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 from app import app
-from Layouts import tab1, tab2, tab3, tab4, tab5, tab6, navbar, SidePanel
+from Layouts import tab1, tab2, tab3, tab4, tab5, tab6, tab7, navbar, SidePanel
 from app import server
 import dash
 import dash_core_components as dcc
@@ -59,6 +59,8 @@ def render_content(tab):
        return tab5.layout
     elif tab == 'tab-6':
        return tab6.layout
+    elif tab == 'tab-7':
+       return tab7.layout
 
 #@app.callback(dash.dependencies.Output('display-value', 'children'), [dash.dependencies.Input('escolhas', 'value')])
 #def display_value(value):

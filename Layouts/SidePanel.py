@@ -28,9 +28,11 @@ layout = html.Div([
                                           , options=[
                         {'label': i, 'value': j} for i,j in [('All time','max'),
                                                              ('5 years',1825),
+                                                            ('3 years',1095),
                                                              ('2 years',730),
                                                              ('Year', 365),
                                                              ('6 Months', 180),
+                                                            ('3 Months', 90),
                                                              ('Month', 31)]
                     ],
                                           value=1825,
@@ -72,7 +74,8 @@ layout = html.Div([
         , dbc.Col(html.Div([
             dcc.Tabs(id="tabs", value='tab-1', children=[
                 dcc.Tab(label='Market caps', value='tab-1'),
-                dcc.Tab(label='Ratios', value='tab-5'),
+                dcc.Tab(label='Marketcap Ratios', value='tab-5'),
+                dcc.Tab(label='Price analysis', value='tab-7'),
                 dcc.Tab(label='Cryptocurrencies Volume', value='tab-2'),
                 dcc.Tab(label='Stablecoins Volume', value='tab-3'),
                 dcc.Tab(label='Bitcoin on Ethereum', value='tab-6'),

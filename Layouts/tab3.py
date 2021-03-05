@@ -15,8 +15,8 @@ import pandas as pd
 from Database import Api
 
 stablecoins=Api.stablecoins
-stable_vol=Api.merge_vol(stablecoins, 'max')
-stablecoins_info=Api.merge_inf(stablecoins)
+stable_vol=Api.dfs_v
+stablecoins_info=Api.dfs_i
 
 
 fig2 = make_subplots(rows=1, cols=2,

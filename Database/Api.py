@@ -89,3 +89,24 @@ def merge_vol(moedas,days):
 
 df_v=merge_vol(coins,'max')
 dfs_v=merge_vol(stablecoins, 'max')
+
+def merge_price(moedas,days):
+    coins_data = {}
+    #retrive information from Api
+    for coin in moedas:
+        # get data from the API; replace url with target source
+        url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
+        r = http.request('GET', url)
+        # decode json data into a dict object
+        data = json.loads(r.data)#.decode('utf-8'))
+        coins_data.update({coin: data})
+    #dataframe
+    df=pd.DataFrame(coins_data[moedas[0]]['prices'], columns=['time', f'{moedas[0]}'])
+    for moeda in moedas[1::]:
+        df1=pd.DataFrame(coins_data[moeda]['prices'], columns=['time', f'{moeda}'])
+        df=df.merge(df1,on='time', how='left')
+    df['time'] = pd.to_datetime(df['time'], unit='ms')
+    df.set_index('time', inplace=True)
+    return df
+
+df_p=merge_price(coins,'max')
