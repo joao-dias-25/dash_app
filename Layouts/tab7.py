@@ -38,8 +38,8 @@ def update_graph(time,lista):
     df_series['Portfolio'] = df_series.mean(axis=1)  # 20% bitcoin, ... , 20% ethereum
     df = (df_series + 1).cumprod()
 
-    fig = make_subplots(rows=1, cols=2, subplot_titles=[f'Price return ({len(coins)} coins selected + equal share portolio)',
-                                                    f'Statistics'])
+    fig = make_subplots(rows=1, cols=2, subplot_titles=['Price return <br>'+f'<i>({len(coins)} coins selected & equal share portolio)</i>',
+                                                    f'Statistic ratios'])
     # Add traces
 
     for coin in coins:

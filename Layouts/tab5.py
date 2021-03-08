@@ -51,20 +51,41 @@ def update_graph(time,lista):
                              name=f'ratio {coin}/btc'), row=1, col=1)
 
     for coin in coins:
-        fig.add_trace(go.Scatter(x=df.index, y=df[f'{coin}']/df['ethereum'],
+        fig.add_trace(go.Scatter(x=df.index, y=df[f'mk_{coin}']/df['mk_ethereum'],
                              mode='lines',
                              name=f'ratio {coin}/eth'), row=1, col=2)
 
     # Add image
     fig.add_layout_image(
         dict(
-            source="https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-            xref="paper", yref="paper",
-            x=1, y=1.05,
-            sizex=0.2, sizey=0.2,
-            xanchor="left", yanchor="bottom"
-        )
+            source="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
+            xref="paper",
+            yref="paper",
+            x=0.05,
+            y=1,
+            sizex=1,
+            sizey=1,
+            # sizing="stretch",
+            opacity=0.5,
+            layer="below"),
+
     )
+    fig.add_layout_image(
+        dict(
+            source="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ethereum_logo_2014.svg/1200px-Ethereum_logo_2014.svg.png",
+            xref="paper",
+            yref="paper",
+            x=0.7,
+            y=1,
+            sizex=1,
+            sizey=1,
+            # sizing="stretch",
+            opacity=0.5,
+            layer="below"),
+
+    )
+
+    fig.update_layout(template="plotly_white")
 
 
     return html.Div(dcc.Graph(
