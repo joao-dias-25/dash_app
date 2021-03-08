@@ -16,6 +16,7 @@ from Database import Api
 
 
 df2 = Api.df_mk
+dfi = Api.df_i
 
 
 layout = html.Div(
@@ -41,15 +42,29 @@ def update_graph(time,lista):
     fig = make_subplots(rows=1, cols=2, subplot_titles=['Ratios against BTC', 'Ratios against ETH'])
 
     # Add traces
-    fig.add_trace(go.Scatter(x=df.index, y=df['ethereum']/df['bitcoin'],
+    fig.add_trace(go.Scatter(x=df.index, y=df['mk_ethereum'] / df['mk_bitcoin'],
                              mode='lines',
-                             name='ratio eth/btc'), row=1, col=1)
+                             name='ratio Ethereum/Bitcoin'), row=1, col=1)
+    for coin in coins:
+        fig.add_trace(go.Scatter(x=df.index, y=df[f'mk_{coin}']/df['mk_bitcoin'],
+                             mode='lines',
+                             name=f'ratio {coin}/btc'), row=1, col=1)
 
     for coin in coins:
         fig.add_trace(go.Scatter(x=df.index, y=df[f'{coin}']/df['ethereum'],
                              mode='lines',
                              name=f'ratio {coin}/eth'), row=1, col=2)
 
+    # Add image
+    fig.add_layout_image(
+        dict(
+            source="https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+            xref="paper", yref="paper",
+            x=1, y=1.05,
+            sizex=0.2, sizey=0.2,
+            xanchor="left", yanchor="bottom"
+        )
+    )
 
 
     return html.Div(dcc.Graph(

@@ -28,6 +28,7 @@ layout = html.Div([
                                           , options=[
                         {'label': i, 'value': j} for i,j in [('All time','max'),
                                                              ('5 years',1825),
+                                                            ('4 years',1460),
                                                             ('3 years',1095),
                                                              ('2 years',730),
                                                              ('Year', 365),

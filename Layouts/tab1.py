@@ -14,7 +14,6 @@ from plotly.subplots import make_subplots
 from Database import Api
 
 
-
 stablecoins=Api.stablecoins
 
 
@@ -40,25 +39,27 @@ def update_graph(time,lista):
         df_s = df_s2.tail(time)
 
     coins = lista
-    fig = make_subplots(rows=1, cols=2, subplot_titles=[f'Total Marketcap ({len(coins)}coins selected)',
-                                                    f'Total Marketcap (Top {len(stablecoins)} Stablecoins)'])
+    fig = make_subplots(rows=1, cols=2, subplot_titles=['Total Marketcap <br>'+
+                                                    f'<i>({len(coins)} coins selected)</i>',
+                                                    'Total Marketcap <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
     # Add traces
 
     for coin in coins:
-        fig.add_trace(go.Scatter(x=df.index, y=df[f'{coin}'],
+        fig.add_trace(go.Scatter(x=df.index, y=df[f'mk_{coin}'],
                              mode='lines',
                              name= coin), row=1, col=1)
 
-    fig.add_trace(go.Scatter(x=df.index, y=df[coins].sum(axis=1),
+
+    fig.add_trace(go.Scatter(x=df.index, y=df[[f'mk_{coin}' for coin in coins]].sum(axis=1),
                              mode='lines',
                              name='combine_market_cap'), row=1, col=1)
 
     for stablecoin in stablecoins:
-        fig.add_trace(go.Scatter(x=df_s.index, y=df_s[f'{stablecoin}'],
+        fig.add_trace(go.Scatter(x=df_s.index, y=df_s[f'mk_{stablecoin}'],
                              mode='lines',
                              name= stablecoin), row=1, col=2)
 
-    fig.add_trace(go.Scatter(x=df_s.index, y=df_s.sum(axis=1),
+    fig.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'mk_{coin}' for coin in stablecoins]].sum(axis=1),
                              mode='lines',
                              name='stablecoins_market_cap'), row=1, col=2)
 

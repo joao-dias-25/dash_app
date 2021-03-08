@@ -31,13 +31,14 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'textAlign': 'center',
             'color': colors['text']
              }),
-            html.Footer(children=['Donations are appreciated :)    bc1qhl0um3rgwm64unykdc8wces2c6vcy59qtf6kja']
-                        ,  id='nota',
+            html.H6(children=["Donations are appreciated :) <br>"+"bc1qhl0um3rgwm64unykdc8wces2c6vcy59qtf6kja"]
+                        , id='nota',
+                        title='titulo',
                         style={'textAlign': ['center'],
                                'color': colors['text']
                                                         }),
             html.Footer(children='© 2021 Crypto dashboard One', id='footer',
-                        style={'textAlign': 'center',
+                        style={'textAlign': 'left',
                                 'color': colors['text']
                                                         }
 

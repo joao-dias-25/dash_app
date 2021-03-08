@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output
 from app import app
 from Database import Api
 
-coins=Api.btc_tokens
+coins=Api.coins
 df_info = Api.merge_inf(coins)
 
 PAGE_SIZE = 20

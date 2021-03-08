@@ -15,7 +15,7 @@ import pandas as pd
 from Database import Api
 
 stablecoins=Api.stablecoins
-stable_vol=Api.dfs_v
+stable_vol=Api.dfs_mk
 stablecoins_info=Api.dfs_i
 
 

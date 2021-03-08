@@ -14,7 +14,7 @@ from plotly.subplots import make_subplots
 # import dataframe
 from Database import Api
 
-df2=Api.df_p
+df2=Api.df_mk
 PAGE_SIZE = 40
 
 

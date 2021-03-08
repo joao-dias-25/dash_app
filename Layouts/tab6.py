@@ -18,13 +18,27 @@ from Database import Api
 btc_tokens=['wrapped-bitcoin','renbtc','huobi-btc','sbtc','tbtc']
 
 #df_mk = Api.df
-df_info=Api.merge_inf(btc_tokens)
+df_info=Api.df_btctokens
 
-coins=Api.coins
+#coins=Api.coins
 
 fig2 = make_subplots(rows=1, cols=2,
                      specs=[[{'type':'xy'},{'type':'domain'}]],
-                     subplot_titles=['Total of bitcoins in Ethereum ', 'Current Dominance'])
+                     subplot_titles=['Total of bitcoins in Ethereum ', 'Protocol Dominance'])
+
+fig2.add_trace(
+    go.Bar(
+        x=df_info.circulating_supply,
+        y=df_info.name,
+        marker=go.bar.Marker(
+            color="rgb(253, 240, 54)",
+            line=dict(color="rgb(0, 0, 0)",
+                      width=2),
+
+        ),
+        orientation="h",
+    ), row=1, col=1
+)
 
 #fig2.add_trace(go.Bar(x=df_info.name, y=df_info.circulating_supply, name='btc'), row=1, col=1)
 

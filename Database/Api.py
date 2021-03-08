@@ -37,13 +37,19 @@ def merge_data(moedas, days):
         # decode json data into a dict object
         data = json.loads(r.data)#.decode('utf-8'))
         coins_data.update({coin: data})
-    df=pd.DataFrame(coins_data[moedas[0]]['market_caps'], columns=['time', f'{moedas[0]}'])
+    df=pd.DataFrame(coins_data[moedas[0]]['market_caps'], columns=['time', f'mk_{moedas[0]}'])
     for moeda in moedas[1::]:
-        df1=pd.DataFrame(coins_data[moeda]['market_caps'], columns=['time', f'{moeda}'])
+        df1=pd.DataFrame(coins_data[moeda]['market_caps'], columns=['time', f'mk_{moeda}'])
+        df=df.merge(df1,on='time', how='left')
+    for moeda in moedas:
+        df1=pd.DataFrame(coins_data[moeda]['total_volumes'], columns=['time', f'volume_{moeda}'])
+        df=df.merge(df1,on='time', how='left')
+    for moeda in moedas:
+        df1=pd.DataFrame(coins_data[moeda]['prices'], columns=['time', f'{moeda}'])
         df=df.merge(df1,on='time', how='left')
     df['time'] = pd.to_datetime(df['time'], unit='ms')
     df.set_index('time', inplace=True)
-    #df['combine_mk'] = df.sum(axis=1)
+
     return df
 
 df_mk=merge_data(coins,'max')
@@ -67,46 +73,4 @@ def merge_inf(moedas):
 
 df_i=merge_inf(coins)
 dfs_i=merge_inf(stablecoins)
-
-def merge_vol(moedas,days):
-    coins_data = {}
-    #retrive information from Api
-    for coin in moedas:
-        # get data from the API; replace url with target source
-        url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
-        r = http.request('GET', url)
-        # decode json data into a dict object
-        data = json.loads(r.data)#.decode('utf-8'))
-        coins_data.update({coin: data})
-    #dataframe
-    df=pd.DataFrame(coins_data[moedas[0]]['total_volumes'], columns=['time', f'volume_{moedas[0]}'])
-    for moeda in moedas[1::]:
-        df1=pd.DataFrame(coins_data[moeda]['total_volumes'], columns=['time', f'volume_{moeda}'])
-        df=df.merge(df1,on='time', how='left')
-    df['time'] = pd.to_datetime(df['time'], unit='ms')
-    df.set_index('time', inplace=True)
-    return df
-
-df_v=merge_vol(coins,'max')
-dfs_v=merge_vol(stablecoins, 'max')
-
-def merge_price(moedas,days):
-    coins_data = {}
-    #retrive information from Api
-    for coin in moedas:
-        # get data from the API; replace url with target source
-        url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days={days}&interval=daily'
-        r = http.request('GET', url)
-        # decode json data into a dict object
-        data = json.loads(r.data)#.decode('utf-8'))
-        coins_data.update({coin: data})
-    #dataframe
-    df=pd.DataFrame(coins_data[moedas[0]]['prices'], columns=['time', f'{moedas[0]}'])
-    for moeda in moedas[1::]:
-        df1=pd.DataFrame(coins_data[moeda]['prices'], columns=['time', f'{moeda}'])
-        df=df.merge(df1,on='time', how='left')
-    df['time'] = pd.to_datetime(df['time'], unit='ms')
-    df.set_index('time', inplace=True)
-    return df
-
-df_p=merge_price(coins,'max')
+df_btctokens=merge_inf(btc_tokens)
