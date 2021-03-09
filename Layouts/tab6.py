@@ -55,6 +55,10 @@ fig2.update(layout_showlegend=False)
 
 fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
 
-layout = html.Div(dcc.Graph(
+layout = html.Div([dbc.Row([dbc.Col(
+                    dcc.Graph(
                   id='segundo-graph',
-                  figure=fig2))
+                  figure=fig2)
+                         ) #end of the column
+                        ]) #end of the row
+                        ]) #end of the div

@@ -77,8 +77,8 @@ layout = html.Div([
                 dcc.Tab(label='Market caps', value='tab-1'),
                 dcc.Tab(label='Marketcap Ratios', value='tab-5'),
                 dcc.Tab(label='Price analysis', value='tab-7'),
-                dcc.Tab(label='Cryptocurrencies Volume', value='tab-2'),
-                dcc.Tab(label='Stablecoins Volume', value='tab-3'),
+                dcc.Tab(label='Cryptocurrencies Dominance', value='tab-2'),
+                dcc.Tab(label='Nodes count', value='tab-3'),
                 dcc.Tab(label='Bitcoin on Ethereum', value='tab-6'),
                 dcc.Tab(label='Coins Info', value='tab-4'),
             ])

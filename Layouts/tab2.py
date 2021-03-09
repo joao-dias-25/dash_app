@@ -14,9 +14,12 @@ from plotly.subplots import make_subplots
 # import dataframe
 from Database import Api
 
-
+stablecoins=Api.stablecoins
+coins=Api.coins
 df_info=Api.df_i
+dfs_info=Api.dfs_i
 coin_vol2=Api.df_mk
+
 
 
 layout = html.Div(
@@ -41,20 +44,22 @@ def update_graph(time,lista):
 
 
     fig2 = make_subplots(rows=1, cols=2,
-                     specs=[[{'type':'xy'},{'type':'domain'}]],
-                     subplot_titles=['Volume', 'Current Dominance'])
+                     specs=[[{'type':'domain'},{'type':'domain'}]],
+                     subplot_titles=['Coins Dominance <br>'+ f'<i>({len(coins)} coins selected)</i>',
+                                     'Stablecoins Dominance <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
+
+
 
     fig2.add_trace(go.Pie(labels=df_info.name, values=df_info.market_cap,
                       textinfo='label+percent', hole=.3,
                       )
-               , row=1, col=2)
+               , row=1, col=1)
+
+    fig2.add_trace(go.Pie(labels=dfs_info.name, values=dfs_info.market_cap,
+                          textinfo='label+percent', hole=.3), row=1, col=2)
+
     fig2.update(layout_showlegend=False)
 
-
-    for coin in coins:
-        fig2.add_trace(go.Scatter(x=coin_vol.index, y=coin_vol[f'volume_{coin}'],
-                             mode='lines',
-                             name= coin), row=1, col=1)
 
 
 

@@ -39,9 +39,9 @@ def update_graph(time,lista):
         df_s = df_s2.tail(time)
 
     coins = lista
-    fig = make_subplots(rows=1, cols=2, subplot_titles=['Total Marketcap <br>'+
-                                                    f'<i>({len(coins)} coins selected)</i>',
-                                                    'Total Marketcap <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
+    fig = make_subplots(rows=1, cols=2,
+                        subplot_titles=['Total Marketcap <br>'+ f'<i>({len(coins)} coins selected)</i>',
+                                         'Total Marketcap <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
     # Add traces
 
     for coin in coins:
@@ -50,21 +50,53 @@ def update_graph(time,lista):
                              name= coin), row=1, col=1)
 
 
-    fig.add_trace(go.Scatter(x=df.index, y=df[[f'mk_{coin}' for coin in coins]].sum(axis=1),
-                             mode='lines',
-                             name='combine_market_cap'), row=1, col=1)
-
     for stablecoin in stablecoins:
         fig.add_trace(go.Scatter(x=df_s.index, y=df_s[f'mk_{stablecoin}'],
                              mode='lines',
                              name= stablecoin), row=1, col=2)
 
+    fig.add_trace(go.Scatter(x=df.index, y=df[[f'mk_{coin}' for coin in coins]].sum(axis=1),
+                             mode='lines',
+                             name='combine_mk'), row=1, col=1)
+
+
     fig.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'mk_{coin}' for coin in stablecoins]].sum(axis=1),
                              mode='lines',
-                             name='stablecoins_market_cap'), row=1, col=2)
+                             name='Stablecoins_mk'), row=1, col=2)
 
-    return html.Div(dcc.Graph(
+    fig2 = make_subplots(rows=1, cols=2,
+                         #specs=[[{'type': 'xy'}, {'type': 'domain'}]],
+                         subplot_titles=['Volume <br>'+ f'<i>({len(coins)} coins selected)</i>',
+                                         'Volume <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
+
+    for coin in coins:
+        fig2.add_trace(go.Scatter(x=df.index, y=df[f'volume_{coin}'],
+                             mode='lines',
+                             name= coin), row=1, col=1)
+
+    for stablecoin in stablecoins:
+        fig2.add_trace(go.Scatter(x=df_s.index, y=df_s[f'volume_{stablecoin}'],
+                                  mode='lines',
+                                  name=stablecoin), row=1, col=2)
+
+    fig2.add_trace(go.Scatter(x=df.index, y=df[[f'volume_{coin}' for coin in coins]].sum(axis=1),
+                             mode='lines',
+                             name='combine_v'), row=1, col=1)
+
+    fig2.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'volume_{coin}' for coin in stablecoins]].sum(axis=1),
+                             mode='lines',
+                             name='Stablecoins_v'), row=1, col=2)
+
+
+    return html.Div([dbc.Row([dbc.Col([
+                    dcc.Graph(
                   id='meu-graph',
-                  figure=fig))
+                  figure=fig),
+                    dcc.Graph(
+                  id='meu-graph',
+                  figure=fig2)
+                         ]) #end of the column
+                        ]) #end of the row
+                        ]) #end of the div
 
 

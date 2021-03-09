@@ -14,36 +14,25 @@ import pandas as pd
 # import dataframe
 from Database import Api
 
-stablecoins=Api.stablecoins
-stable_vol=Api.dfs_mk
-stablecoins_info=Api.dfs_i
+nodes=Api.dfnodes
 
 
 fig2 = make_subplots(rows=1, cols=2,
                      specs=[[{'type':'xy'},{'type':'domain'}]],
-                     subplot_titles=['Volume', 'Current Dominance'])
+                     subplot_titles=['Bitcoin nodes (last 2hours)', 'graph'])
 
-for stablecoin in stablecoins:
-    fig2.add_trace(go.Scatter(x=stable_vol.index, y=stable_vol[f'volume_{stablecoin}'],
+fig2.add_trace(go.Scatter(x=nodes.index, y=nodes.total_nodes,
                              mode='lines',
-                             name= stablecoin), row=1, col=1)
-fig2.add_trace(go.Pie(labels=stablecoins_info.name, values=stablecoins_info.market_cap,
-                      textinfo='label+percent', hole=.3), row=1, col=2)
-#fig2.update_layout(
-    # Add annotations in the center of the donut pies.
- #   annotations=[dict(text='dominance cryptocurrencies', x=0.1, y=0.5, font_size=10, showarrow=False),
-  #               dict(text='dominance stablecoins', x=0.82, y=0.5, font_size=10, showarrow=False)])
+                             name= 'bitcoin nodes'), row=1, col=1)
+#fig2.update(layout_showlegend=False)
 
 
-fig2.update(layout_showlegend=False)
-#fig2.update_layout(
-    # Add annotations in the center of the donut pies.
- #   annotations=[dict(text='dominance', x=0, y=0.5, font_size=16, showarrow=False),
-   #              dict(text='stablecoins', x=0.48, y=0.5, font_size=16, showarrow=False)])
-#cores = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen', 'lightblue']
+#fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
 
-fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
-
-layout = html.Div(dcc.Graph(
+layout = html.Div([dbc.Row([dbc.Col(
+                    dcc.Graph(
                   id='segundo-graph',
-                  figure=fig2))
+                  figure=fig2)
+                         ) #end of the column
+                        ]) #end of the row
+                        ]) #end of the div

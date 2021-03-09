@@ -74,3 +74,16 @@ def merge_inf(moedas):
 df_i=merge_inf(coins)
 dfs_i=merge_inf(stablecoins)
 df_btctokens=merge_inf(btc_tokens)
+
+
+# nodes of number of nodes
+def nodes_btc():
+    url = 'https://bitnodes.io/api/v1/snapshots/'
+    r = http.request('GET', url)
+    data = json.loads(r.data)
+    nodes=pd.json_normalize(data, record_path='results')
+    nodes['timestamp'] = pd.to_datetime(nodes['timestamp'], unit='s')
+    nodes.set_index('timestamp', inplace=True)
+    return nodes
+
+dfnodes=nodes_btc()
