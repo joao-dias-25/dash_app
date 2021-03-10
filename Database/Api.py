@@ -78,7 +78,7 @@ df_btctokens=merge_inf(btc_tokens)
 
 # nodes of number of nodes
 def nodes_btc():
-    url = 'https://bitnodes.io/api/v1/snapshots/'
+    url = 'https://bitnodes.io/api/v1/snapshots/?limit=100'
     r = http.request('GET', url)
     data = json.loads(r.data)
     nodes=pd.json_normalize(data, record_path='results')
@@ -86,4 +86,17 @@ def nodes_btc():
     nodes.set_index('timestamp', inplace=True)
     return nodes
 
-dfnodes=nodes_btc()
+dfnodes_count=nodes_btc()
+def nodes_coordenates():
+    url = f'https://bitnodes.io/api/v1/snapshots/1615308405/'
+    r = http.request('GET', url)
+
+    # decode json data into a dict object
+    data = json.loads(r.data)
+    df = pd.DataFrame.from_dict(data['nodes'],
+                                orient='index',
+                                dtype=None,
+                                columns=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'])
+    return df
+
+dfnodes=nodes_coordenates()

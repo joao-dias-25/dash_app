@@ -20,10 +20,10 @@ max_p=len(coins)
 layout = html.Div([
         dbc.Row([dbc.Col(
         html.Div([
-           # html.H5('Options'),
+             #html.H6('Options'),
 
              html.Div([html.P()
-                           , html.H6('Timeframe')
+                           , html.P('Timeframe')
                            , dcc.Dropdown(id='time-drop'
                                           , options=[
                         {'label': i, 'value': j} for i,j in [('All time','max'),
@@ -36,30 +36,32 @@ layout = html.Div([
                                                             ('3 Months', 90),
                                                              ('Month', 31)]
                     ],
-                                          value=1825,
-                                          multi=False
+                                          value=1460,
+                                          #multi=False,
+                                            clearable=False
                                           )
                         ])
             , html.Div([html.P()
-                           , html.H6('Rank slider(not working)')
+                           , html.P('Rank slider(not working)')
                            , dcc.RangeSlider(id='rank-slider'
                                              , min=min_p
                                              , max=max_p
                                              #, marks={20: 'top20',
                                             #          50: 'top50',
                                               #        }
-                                             #, value=[0, 50]
+                                             , value=[2, 5]
                                              )
 
                         ])
             , html.Div([html.P()
-                           , html.H6('Select coins')
+                           , html.P('Select coins')
                            , dcc.Dropdown(id='coin-drop'
                                           , options=[
                         {'label': i, 'value': i} for i in coins
                     ],
                                           value=['bitcoin','ethereum','cardano'],
-                                          multi=True
+                                          multi=True,
+                                          clearable=False
                                           )
                         ])
             #, dcc.Checklist(id='filtro'
@@ -67,9 +69,10 @@ layout = html.Div([
             #        {'label': 'filter by rank', 'value': 'Y'}
             #    ])
 
-        ], style={'marginBottom': 10, 'marginTop': 10, 'marginLeft': 10, 'marginRight': 10,
+        ], style={'marginBottom': 10, 'marginTop': 70, 'marginLeft': 20, 'marginRight': 20,
                   'textAlign': 'left',
-                    'color': '#319199' }
+                    #'color': 'white',
+                    'dark' : True}
         )  # end div
         , width=2)  # End col
         , dbc.Col(html.Div([
@@ -78,9 +81,9 @@ layout = html.Div([
                 dcc.Tab(label='Marketcap Ratios', value='tab-5'),
                 dcc.Tab(label='Price analysis', value='tab-7'),
                 dcc.Tab(label='Cryptocurrencies Dominance', value='tab-2'),
-                dcc.Tab(label='Nodes count', value='tab-3'),
-                dcc.Tab(label='Bitcoin on Ethereum', value='tab-6'),
-                dcc.Tab(label='Coins Info', value='tab-4'),
+                dcc.Tab(label='BTC & ETH nodes Count', value='tab-3'),
+                dcc.Tab(label='On-chain stats', value='tab-6'),
+                dcc.Tab(label='Dataframes', value='tab-4'),
             ])
             , html.Div(id='tabs-content')
         ]), width=10)

@@ -9,7 +9,6 @@ from dash.dependencies import Input, Output
 from app import app
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import pandas as pd
 
 # import dataframe
 from Database import Api
@@ -85,7 +84,7 @@ def update_graph(time,lista):
 
     )
 
-    fig.update_layout(template="plotly_white")
+    fig.update_layout(template="simple_white")
 
 
     return html.Div(dcc.Graph(

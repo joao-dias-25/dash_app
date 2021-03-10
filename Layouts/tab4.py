@@ -9,16 +9,16 @@ from dash.dependencies import Input, Output
 from app import app
 from Database import Api
 
-coins=Api.coins
-df_info = Api.merge_inf(coins)
+#coins=Api.coins
+df = Api.dfnodes_count
 
 PAGE_SIZE = 20
 layout =html.Div(dash_table.DataTable(
                             id='table-sorting-filtering',
                             columns=[
-                            {"name": i, "id": i} for i in df_info.columns
+                            {"name": i, "id": i} for i in df.columns
                             ],
-                            data=df_info.to_dict('records'),
+                            data=df.to_dict('records'),
                             style_table={'height':'350px'
                                 ,'overflowX': 'scroll'},
 style_data_conditional=[

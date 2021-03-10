@@ -15,8 +15,8 @@ from dash.dependencies import Input, Output
 
 
 colors = {
-    'background': 'black',
-    'text': '#319199'}
+    'background': '#E5EEFD',
+    'text': 'black'}
 
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
@@ -27,18 +27,24 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
             html.Br(),
 
-             html.H3(children='A Dashboard on crypto currencies', style={
+             html.H3(children='Dashboard on crypto currencies', style={
             'textAlign': 'center',
             'color': colors['text']
              }),
-            html.H6(children=["Donations are appreciated :) <br>"+"bc1qhl0um3rgwm64unykdc8wces2c6vcy59qtf6kja"]
+            html.H6(children=["Donations are appreciated :)"]
+                        , id='outro-texto',
+                        title='titulo',
+                        style={'textAlign': ['center'],
+                               'color': colors['text']
+                                                        }),
+            html.H6(children=["bc1qhl0um3rgwm64unykdc8wces2c6vcy59qtf6kja"]
                         , id='nota',
                         title='titulo',
                         style={'textAlign': ['center'],
                                'color': colors['text']
                                                         }),
             html.Footer(children='© 2021 Crypto dashboard One', id='footer',
-                        style={'textAlign': 'left',
+                        style={'textAlign': 'center',
                                 'color': colors['text']
                                                         }
 
