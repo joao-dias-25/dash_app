@@ -87,11 +87,12 @@ def update_graph(time,lista):
                              mode='lines',
                              name='Stablecoins_v'), row=1, col=2)
 
-    fig.update_layout(template="simple_white",margin=dict(
+    fig.update_layout(title = f'Data from Source: <a href="https://www.coingecko.com/">Coingecko</a>',
+                        template="simple_white",margin=dict(
                                 l=30, #left margin
                                 r=20, #right margin
                                 b=60, #bottom margin
-                                t=60  #top margin
+                                t=100  #top margin
              ))
     fig2.update_layout(template="simple_white",margin=dict(
                                 l=30, #left margin

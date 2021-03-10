@@ -12,6 +12,7 @@ from Database import Api
 #coins=Api.coins
 df = Api.dfnodes_count
 
+
 PAGE_SIZE = 20
 layout =html.Div(dash_table.DataTable(
                             id='table-sorting-filtering',

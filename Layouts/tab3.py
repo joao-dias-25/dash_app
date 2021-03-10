@@ -13,7 +13,9 @@ from plotly.subplots import make_subplots
 from Database import Api
 
 nodes=Api.dfnodes_count
-coor = Api.dfnodes[['I','J']]
+coor = Api.dfnodes[['I','J','K']]
+eth_nodes=Api.nodes_eth()
+
 
 fig1 = make_subplots(rows=1, cols=1,
                      #specs=[[{'type':'xy'}, {}]],
@@ -26,23 +28,24 @@ fig1.add_trace(go.Scatter(x=nodes.index, y=nodes.total_nodes,
 fig2 =go.Figure(go.Scattergeo(
         lon = coor['J'],
         lat = coor['I'],
-       # text = df['text'],
+        text = coor['K'],
+
        # mode = 'markers',
        # marker_color = df['cnt'],
         ))
 
-#fig2.update(layout_showlegend=False)
-
-
-#fig2.update_traces( marker=dict( line=dict(color='#000000', width=2)))
+fig2.update_layout(
+        title = (f'Total Bitcoin nodes: {nodes.total_nodes[0]} ; snapshot:{nodes.index[0]}'
+                 f'<br>Total Ethereum nodes: {eth_nodes[0]}; snapshot:{eth_nodes[1]}'),
+        geo_scope='world',
+    )
 
 layout = html.Div([dbc.Row([dbc.Col([
-                    dcc.Graph(
-                  id='segundo-graph',
-                  figure=fig1)],width=4),
-                dbc.Col([dcc.Graph(
+                   # html.H2(nodes.total_nodes[0]),
+                 dcc.Graph(
                  id='mapa',
-                  figure=fig2)
-                        ],width=8 ) #end of the column
+                  figure=fig2
+                        )
+                        ])#end of the column
                         ]) #end of the row
                         ]) #end of the div

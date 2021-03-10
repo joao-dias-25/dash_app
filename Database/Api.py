@@ -1,7 +1,4 @@
-import dash_bootstrap_components as dbc
 import pandas as pd
-from dash.dependencies import Input, Output
-
 import urllib3
 from urllib3 import request
 
@@ -78,17 +75,18 @@ df_btctokens=merge_inf(btc_tokens)
 
 # nodes of number of nodes
 def nodes_btc():
-    url = 'https://bitnodes.io/api/v1/snapshots/?limit=100'
+    url = 'https://bitnodes.io/api/v1/snapshots/'
     r = http.request('GET', url)
     data = json.loads(r.data)
     nodes=pd.json_normalize(data, record_path='results')
-    nodes['timestamp'] = pd.to_datetime(nodes['timestamp'], unit='s')
-    nodes.set_index('timestamp', inplace=True)
+    nodes['date'] = pd.to_datetime(nodes['timestamp'], unit='s')
+    nodes.set_index('date', inplace=True)
     return nodes
 
-dfnodes_count=nodes_btc()
+dfnodes_count = nodes_btc()
+
 def nodes_coordenates():
-    url = f'https://bitnodes.io/api/v1/snapshots/1615308405/'
+    url = f'https://bitnodes.io/api/v1/snapshots/{dfnodes_count.timestamp[0]}/'
     r = http.request('GET', url)
 
     # decode json data into a dict object
@@ -99,4 +97,11 @@ def nodes_coordenates():
                                 columns=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'])
     return df
 
-dfnodes=nodes_coordenates()
+dfnodes = nodes_coordenates()
+
+def nodes_eth():
+    url = 'https://api.etherscan.io/api?module=stats&action=nodecount&apikey=YourApiKeyToken'
+    r = http.request('GET', url)
+    data = json.loads(r.data)
+    df=pd.DataFrame.from_dict(data)
+    return df.result
