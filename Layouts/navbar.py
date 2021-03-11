@@ -7,11 +7,11 @@ def Navbar():
             dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar"),
             dbc.DropdownMenu(
                 children=[
-                    dbc.DropdownMenuItem("DeFi", href="https://defipulse.com/"),
-                    dbc.DropdownMenuItem("Top liquidity pools", href="https://pools.fyi/#/"),
+                    dbc.DropdownMenuItem("USD tokens on Ethereum", href="https://duneanalytics.com/johnz/first"),
+                    dbc.DropdownMenuItem("Gold tokens on Ethereum", href="https://duneanalytics.com/johnz/assets-on-ethereum"),
                     dbc.DropdownMenuItem(divider=True),
-                    dbc.DropdownMenuItem("stablecoin marketcap", href="http://stablecoinwatch.com/"),
-                    dbc.DropdownMenuItem("fiat marketcap", href="https://fiatmarketcap.com/")
+                    dbc.DropdownMenuItem("DeFi", href="https://defipulse.com/"),
+                    dbc.DropdownMenuItem("Top liquidity pools", href="https://pools.fyi/#/")
                 ],
                 nav=True,
                 in_navbar=True,
