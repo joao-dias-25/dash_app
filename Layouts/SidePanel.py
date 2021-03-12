@@ -40,21 +40,35 @@ layout = html.Div([
                                           #multi=False,
                                             clearable=False
                                           )
-                        ])
+                        ]),
+            html.Div([html.P()
+                         , html.P('Top coins (not available)')
+                         , dcc.Dropdown(id='order-drop'
+                                        , options=[
+                        {'label': i, 'value': j} for i, j in [('by Market Cap', 'market_cap_desc'),
+                                                              ('by Gecko rank', 'gecko_desc'),
+                                                              ('by Volume','volume_desc')]
+                                                            ],
+                                        value='volume_desc',
+                                        clearable=False
+                                        )
+                      ])
+
+
             , html.Div([html.P()
-                           , html.P('Rank slider(not working)')
+                           , html.P('Rank slider (not available)')
                            , dcc.RangeSlider(id='rank-slider'
                                              , min=min_p
                                              , max=max_p
                                              #, marks={20: 'top20',
                                             #          50: 'top50',
                                               #        }
-                                             , value=[2, 5]
+                                             , value=[2, 10]
                                              )
 
                         ])
             , html.Div([html.P()
-                           , html.P('Select coins')
+                           , html.P(f'Select coins (top {len(coins)})')
                            , dcc.Dropdown(id='coin-drop'
                                           , options=[
                         {'label': i, 'value': i} for i in coins

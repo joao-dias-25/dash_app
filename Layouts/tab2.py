@@ -16,10 +16,9 @@ from Database import Api
 
 stablecoins=Api.stablecoins
 coins=Api.coins
-df_info=Api.df_i
+dfi=Api.df_i
 dfs_info=Api.dfs_i
 coin_vol2=Api.df_mk
-#btc_tokens=['wrapped-bitcoin','renbtc','huobi-btc','sbtc','tbtc']
 df_info_token=Api.df_btctokens
 
 
@@ -30,20 +29,11 @@ layout = html.Div(
         )
 
 @app.callback(Output('table-paging-volume-graph-container', "children"),
-        [Input('time-drop', 'value')
-        , Input('coin-drop', 'value')
+        [ Input('coin-drop', 'value')
         ])
-def update_graph(time,lista):
+def update_graph(lista):
     coins = lista
-
-    #df_info = Api.merge_inf(coins)
-
-    if str == type(time):
-        coin_vol = coin_vol2
-    else:
-        coin_vol = coin_vol2.tail(time)
-
-
+    df_info = dfi.loc[dfi['id'].isin(coins)]
 
     fig2 = make_subplots(rows=2, cols=2,
                      specs=[[{'type':'domain'},{'type':'domain'}],
@@ -55,10 +45,10 @@ def update_graph(time,lista):
 
 
 
-    fig2.add_trace(go.Pie(labels=df_info.name, values=df_info.market_cap,
+    fig2.add_trace(go.Pie(labels=df_info.name,
+                          values=df_info.market_cap,
                       textinfo='label+percent', hole=.3,
-                      )
-               , row=1, col=1)
+                      ), row=1, col=1)
 
     fig2.add_trace(go.Pie(labels=dfs_info.name, values=dfs_info.market_cap,
                           textinfo='label+percent', hole=.3), row=1, col=2)

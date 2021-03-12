@@ -17,11 +17,32 @@ http = urllib3.PoolManager(
     ca_certs=certifi.where())
 
 
-coins=['bitcoin','ethereum','cardano','binancecoin','polkadot','litecoin','monero']
 
-stablecoins=['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']
+def rank_inf(order,limit):
+    url = f'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order={order}&per_page={limit}&page=1&sparkline=false'
+    r = http.request('GET', url)
 
-btc_tokens=['wrapped-bitcoin','renbtc','huobi-btc','sbtc','tbtc']
+    # decode json data into a dict object
+    data = json.loads(r.data)
+    df_info = pd.json_normalize(data)
+    return df_info
+
+def rank_messari():
+    url = 'https://data.messari.io/api/v1/assets?fields=id,slug,symbol,metrics/market_data/price_usd'
+    r = http.request('GET', url)
+
+    # decode json data into a dict object
+    data = json.loads(r.data)
+    df_info = pd.json_normalize(data, record_path='data')
+    return df_info.slug.tolist()
+
+
+df_rank=rank_inf('gecko_desc',10)
+
+
+stablecoins = ['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']
+btc_tokens = ['wrapped-bitcoin','renbtc','huobi-btc','sbtc','tbtc']
+coins = [item for item in df_rank.id.tolist() if item not in (stablecoins + btc_tokens)]
 
 
 def merge_data(moedas, days):

@@ -41,7 +41,6 @@ fig2.update_layout(
     )
 
 layout = html.Div([dbc.Row([dbc.Col([
-                   # html.H2(nodes.total_nodes[0]),
                  dcc.Graph(
                  id='mapa',
                   figure=fig2
