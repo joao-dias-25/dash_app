@@ -101,7 +101,9 @@ def update_graph(time,lista):
                   figure=fig
                         )], width=7),
                             dbc.Col([html.Div([html.H3('Price return'),
-                                     html.P(f'The plot shows the growth of $1 invested {time} days ago')])
+                                     html.P(f'The plot shows the growth of $1 invested {time} days ago'),
+                                    html.Img(src='https://alternative.me/crypto/fear-and-greed-index.png', style={'width': '400px'})
+                                               ])
                             ],width=5)]),
                 dbc.Row([dbc.Col([
                     dcc.Graph(
