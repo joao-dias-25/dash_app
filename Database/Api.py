@@ -8,6 +8,8 @@ import certifi
 # to manage json data
 import json
 #import requests
+import os
+from os import environ
 
 
 # handle certificate verification and SSL warnings:
@@ -126,3 +128,21 @@ def nodes_eth():
     data = json.loads(r.data)
     df=pd.DataFrame.from_dict(data)
     return df.result
+
+def btc_stats():
+    url = 'https://api.blockchain.info/stats'
+    r = http.request('GET', url)
+
+    # decode json data into a dict object
+    data = json.loads(r.data)
+    df = pd.DataFrame.from_dict(data,orient='index',columns=['bitcoin stats']).reset_index()
+    return df
+
+def secret_api():
+    CONSUMER_KEY = environ['TEST_API_KEY']
+    url = f'https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key={CONSUMER_KEY}'
+    r = http.request('GET', url)
+    # decode json data into a dict object
+    data = json.loads(r.data)
+    df = pd.DataFrame.from_dict(data)
+    return df

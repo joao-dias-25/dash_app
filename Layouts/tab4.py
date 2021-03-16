@@ -10,7 +10,7 @@ from app import app
 from Database import Api
 
 #coins=Api.coins
-df = Api.df_rank
+df = Api.secret_api()
 
 
 PAGE_SIZE = 20

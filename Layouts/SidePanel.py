@@ -49,7 +49,7 @@ layout = html.Div([
                                                               ('by Gecko rank', 'gecko_desc'),
                                                               ('by Volume','volume_desc')]
                                                             ],
-                                        value='volume_desc',
+                                        value='gecko_desc',
                                         clearable=False
                                         )
                       ])
@@ -97,7 +97,7 @@ layout = html.Div([
                 dcc.Tab(label='Cryptocurrencies Dominance', value='tab-2'),
                 dcc.Tab(label='BTC & ETH nodes Count', value='tab-3'),
                 dcc.Tab(label='On-chain stats', value='tab-6'),
-                dcc.Tab(label='Dataframes', value='tab-4'),
+                dcc.Tab(label='Bitcoin 24h stats', value='tab-4'),
             ])
             , html.Div(id='tabs-content')
         ]), width=10)

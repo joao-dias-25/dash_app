@@ -31,7 +31,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'textAlign': 'center',
             'color': colors['text']
              }),
-            html.H6(children=["Donations are appreciated :)"]
+            html.H6(children=["Support this project by donating BTC :)"]
                         , id='outro-texto',
                         title='titulo',
                         style={'textAlign': ['center'],

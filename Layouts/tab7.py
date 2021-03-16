@@ -115,7 +115,7 @@ def update_graph(time,lista):
                                        html.H4('Max Drawdown'),
                                        html.P('''Max drawdown quantifies the steepest decline from peak to trough observed for an investment. This is useful for a number of reasons, mainly the fact that it doesn't rely on the underlying returns being normally distributed. It also gives us an indication of conditionality amongst the returns increments. Whereas in the previous ratios, we only considered the overall reward relative to risk, however, it may be that consecutive returns are not independent leading to unacceptably high losses of a given period of time. '''),
                                        html.H4('Calmar ratio'),
-                                       html.P('''The final risk/reward ratio we will consider is the Calmar ratio. This is similar to the other ratios, with the key difference being that the Calmar ratio uses max drawdown in the denominator as opposed to standard deviation.'''),
+                                       html.P('''This is similar to the other ratios, with the key difference being that the Calmar ratio uses max drawdown in the denominator as opposed to standard deviation.'''),
 
                                        ])
                              ], width=5)]) #end of the row
