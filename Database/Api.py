@@ -144,5 +144,7 @@ def secret_api():
     r = http.request('GET', url)
     # decode json data into a dict object
     data = json.loads(r.data)
-    df = pd.DataFrame.from_dict(data)
+    df = pd.DataFrame.from_dict(data, orient='index', columns=['Ethereum Gas inf'])
+    df = df.reset_index()
+    df=df.drop(df.index[11])
     return df
