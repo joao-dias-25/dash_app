@@ -30,8 +30,6 @@ fig2 =go.Figure(go.Scattergeo(
         lat = coor['I'],
         text = coor['K'],
 
-       # mode = 'markers',
-       # marker_color = df['cnt'],
         ))
 
 fig2.update_layout(

@@ -86,6 +86,10 @@ def update_graph(time,lista):
 
     fig.update_layout(template="simple_white")
 
+    fig.update_xaxes(
+        title_text='Date',
+        rangeslider_visible=True)
+
 
     return html.Div(dcc.Graph(
                   id='example-graph',

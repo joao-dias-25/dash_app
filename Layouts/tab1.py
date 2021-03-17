@@ -101,6 +101,11 @@ def update_graph(time,lista):
                                 t=60  #top margin
              ))
 
+    fig.update_yaxes(#title_text='Trilions',
+                     tickprefix='$')
+    fig2.update_yaxes(  # title_text='Trilions',
+        tickprefix='$')
+
     return html.Div([dbc.Row([dbc.Col([
                     dcc.Graph(
                   id='meu-graph',

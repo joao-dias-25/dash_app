@@ -39,7 +39,7 @@ def rank_messari():
     return df_info.slug.tolist()
 
 
-df_rank=rank_inf('gecko_desc',10)
+df_rank=rank_inf('market_cap_desc',10)
 
 
 stablecoins = ['tether','usd-coin', 'binance-usd','dai','paxos-standard','husd', 'ampleforth']

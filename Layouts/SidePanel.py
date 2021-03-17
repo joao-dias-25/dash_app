@@ -49,7 +49,7 @@ layout = html.Div([
                                                               ('by Gecko rank', 'gecko_desc'),
                                                               ('by Volume','volume_desc')]
                                                             ],
-                                        value='gecko_desc',
+                                        value='market_cap_desc',
                                         clearable=False
                                         )
                       ])
