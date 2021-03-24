@@ -39,35 +39,35 @@ def update_graph(time,lista):
         df_s = df_s2.tail(time)
 
     coins = lista
-    fig = make_subplots(rows=1, cols=2,
-                        subplot_titles=['Total Marketcap <br>'+ f'<i>({len(coins)} coins selected)</i>',
-                                         'Total Marketcap <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
-    # Add traces
+    fig1 = make_subplots(rows=1, cols=1,
+                        subplot_titles=['Total Marketcap <br>'+ f'<i>({len(coins)} coins selected)</i>'])
 
+    fig3 = make_subplots(rows=1, cols=1,
+                        subplot_titles=['Total Marketcap <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
+
+    # Add traces
     for coin in coins:
-        fig.add_trace(go.Scatter(x=df.index, y=df[f'mk_{coin}'],
+        fig1.add_trace(go.Scatter(x=df.index, y=df[f'mk_{coin}'],
                              mode='lines',
                              name= coin), row=1, col=1)
 
-
-    for stablecoin in stablecoins:
-        fig.add_trace(go.Scatter(x=df_s.index, y=df_s[f'mk_{stablecoin}'],
-                             mode='lines',
-                             name= stablecoin), row=1, col=2)
-
-    fig.add_trace(go.Scatter(x=df.index, y=df[[f'mk_{coin}' for coin in coins]].sum(axis=1),
+    fig1.add_trace(go.Scatter(x=df.index, y=df[[f'mk_{coin}' for coin in coins]].sum(axis=1),
                              mode='lines',
                              name='combine_mk'), row=1, col=1)
 
-
-    fig.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'mk_{coin}' for coin in stablecoins]].sum(axis=1),
+    for stablecoin in stablecoins:
+        fig3.add_trace(go.Scatter(x=df_s.index, y=df_s[f'mk_{stablecoin}'],
                              mode='lines',
-                             name='Stablecoins_mk'), row=1, col=2)
+                             name= stablecoin), row=1, col=1)
 
-    fig2 = make_subplots(rows=1, cols=2,
-                         #specs=[[{'type': 'xy'}, {'type': 'domain'}]],
-                         subplot_titles=['Volume <br>'+ f'<i>({len(coins)} coins selected)</i>',
-                                         'Volume <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
+    fig3.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'mk_{coin}' for coin in stablecoins]].sum(axis=1),
+                             mode='lines',
+                             name='Stablecoins_mk'), row=1, col=1)
+
+    fig2 = make_subplots(rows=1, cols=1,
+                         subplot_titles=['Volume <br>'+ f'<i>({len(coins)} coins selected)</i>'])
+    fig4 = make_subplots(rows=1, cols=1,
+                         subplot_titles=['Volume <br>'+f'<i>(Top {len(stablecoins)} Stablecoins)</i>'])
 
     for coin in coins:
         fig2.add_trace(go.Scatter(x=df.index, y=df[f'volume_{coin}'],
@@ -75,19 +75,19 @@ def update_graph(time,lista):
                              name= coin), row=1, col=1)
 
     for stablecoin in stablecoins:
-        fig2.add_trace(go.Scatter(x=df_s.index, y=df_s[f'volume_{stablecoin}'],
+        fig4.add_trace(go.Scatter(x=df_s.index, y=df_s[f'volume_{stablecoin}'],
                                   mode='lines',
-                                  name=stablecoin), row=1, col=2)
+                                  name=stablecoin), row=1, col=1)
 
     fig2.add_trace(go.Scatter(x=df.index, y=df[[f'volume_{coin}' for coin in coins]].sum(axis=1),
                              mode='lines',
                              name='combine_v'), row=1, col=1)
 
-    fig2.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'volume_{coin}' for coin in stablecoins]].sum(axis=1),
+    fig4.add_trace(go.Scatter(x=df_s.index, y=df_s[[f'volume_{coin}' for coin in stablecoins]].sum(axis=1),
                              mode='lines',
-                             name='Stablecoins_v'), row=1, col=2)
+                             name='Stablecoins_v'), row=1, col=1)
 
-    fig.update_layout(title = f'Data from Source: <a href="https://www.coingecko.com/">Coingecko</a>',
+    fig1.update_layout(title = f'Data from Source: <a href="https://www.coingecko.com/">Coingecko</a>',
                         template="simple_white",margin=dict(
                                 l=30, #left margin
                                 r=20, #right margin
@@ -100,20 +100,40 @@ def update_graph(time,lista):
                                 b=60, #bottom margin
                                 t=60  #top margin
              ))
+    fig3.update_layout(template="simple_white", margin=dict(
+        l=30,  # left margin
+        r=20,  # right margin
+        b=60,  # bottom margin
+        t=100  # top margin
+    ))
+    fig4.update_layout(template="simple_white", margin=dict(
+        l=30,  # left margin
+        r=20,  # right margin
+        b=60,  # bottom margin
+        t=60  # top margin
+    ))
 
-    fig.update_yaxes(#title_text='Trilions',
-                     tickprefix='$')
-    fig2.update_yaxes(  # title_text='Trilions',
-        tickprefix='$')
+    fig1.update_yaxes(tickprefix='$')
+    fig2.update_yaxes(tickprefix='$')
+    fig3.update_yaxes(tickprefix='$')
+    fig4.update_yaxes(tickprefix='$')
 
     return html.Div([dbc.Row([dbc.Col([
                     dcc.Graph(
                   id='meu-graph',
-                  figure=fig),
+                  figure=fig1),
                     dcc.Graph(
                   id='meu-graph',
                   figure=fig2)
-                         ]) #end of the column
+                         ]),dbc.Col([
+                    dcc.Graph(
+                  id='meu-graph',
+                  figure=fig3),
+                    dcc.Graph(
+                  id='meu-graph',
+                  figure=fig4)
+                         ])
+                    #end of the column
                         ]) #end of the row
                         ]) #end of the div
 

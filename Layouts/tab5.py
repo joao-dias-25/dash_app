@@ -18,11 +18,9 @@ df2 = Api.df_mk
 dfi = Api.df_i
 
 
-layout = html.Div(
-            id='table-paging-ratio-graph-container'
-                                                )
+layout = html.Div(id='container')
 
-@app.callback(Output('table-paging-ratio-graph-container', "children"),
+@app.callback(Output('container', "children"),
         [Input('time-drop', 'value')
         , Input('coin-drop', 'value')
         ])
@@ -86,11 +84,20 @@ def update_graph(time,lista):
 
     fig.update_layout(template="simple_white")
 
-    fig.update_xaxes(
-        title_text='Date',
-        rangeslider_visible=True)
 
 
-    return html.Div(dcc.Graph(
-                  id='example-graph',
-                  figure=fig))
+    return html.Div([dbc.Row([dbc.Col([
+                dcc.Dropdown(id='order-drop'
+                       , options=[
+                {'label': i, 'value': i} for i in lista
+            ],
+                       value='cardano',
+                       clearable=False
+                       ),
+
+                    dcc.Graph(
+                  id='meu-graph',
+                  figure=fig)
+                         ]) #end of the column
+                        ]) #end of the row
+                        ]) #end of the div
