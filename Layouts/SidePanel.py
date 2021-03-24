@@ -42,19 +42,18 @@ layout = html.Div([
                                           )
                         ]),
 
-            ''' html.Div([html.P()
-                           , html.P('Rank slider (not available)')
-                           , dcc.RangeSlider(id='rank-slider'
-                                             , min=min_p
-                                             , max=max_p
-                                             #, marks={20: 'top20',
-                                            #          50: 'top50',
-                                              #        }
-                                             , value=[2, 10]
-                                             )
-
-                        ])'''
-            , html.Div([html.P()
+             #html.Div([html.P()
+             #              , html.P('Rank slider (not available)')
+             #              , dcc.RangeSlider(id='rank-slider'
+             #                                , min=min_p
+             #                                , max=max_p
+             #                                #, marks={20: 'top20',
+             #                               #          50: 'top50',
+             #                                 #        }
+             #                                , value=[2, 10]
+             #                                )
+             #           ])
+             html.Div([html.P()
                            , html.P(f'Select coins (top {len(coins)})')
                            , dcc.Dropdown(id='coin-drop'
                                           , options=[
