@@ -41,21 +41,8 @@ layout = html.Div([
                                             clearable=False
                                           )
                         ]),
-            html.Div([html.P()
-                         , html.P('Top coins (not available)')
-                         , dcc.Dropdown(id='order-drop'
-                                        , options=[
-                        {'label': i, 'value': j} for i, j in [('by Market Cap', 'market_cap_desc'),
-                                                              ('by Gecko rank', 'gecko_desc'),
-                                                              ('by Volume','volume_desc')]
-                                                            ],
-                                        value='market_cap_desc',
-                                        clearable=False
-                                        )
-                      ])
 
-
-            , html.Div([html.P()
+            ''' html.Div([html.P()
                            , html.P('Rank slider (not available)')
                            , dcc.RangeSlider(id='rank-slider'
                                              , min=min_p
@@ -66,7 +53,7 @@ layout = html.Div([
                                              , value=[2, 10]
                                              )
 
-                        ])
+                        ])'''
             , html.Div([html.P()
                            , html.P(f'Select coins (top {len(coins)})')
                            , dcc.Dropdown(id='coin-drop'

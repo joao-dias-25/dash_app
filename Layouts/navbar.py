@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 def Navbar():
     navbar = dbc.NavbarSimple(
         children=[
-            dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar"),
+            #dbc.Button("Sidebar", outline=True, color="secondary", className="mr-1", id="btn_sidebar"),
             dbc.DropdownMenu(
                 children=[
                     dbc.DropdownMenuItem("USD tokens on Ethereum", href="https://duneanalytics.com/johnz/first"),
@@ -17,7 +17,8 @@ def Navbar():
                 in_navbar=True,
                 label="pages",
             ),
-            dbc.NavItem(dbc.NavLink("Home", href="/index")),
+            dbc.Button("A button", outline=True, color="secondary", className="mr-1", id="btn_sidebar"),
+            #dbc.NavItem(dbc.NavLink("Home", href="/index")),
         ],
         brand="Dashboard on crypto currencies",
         color="#E5EEFD",
