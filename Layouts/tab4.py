@@ -9,8 +9,8 @@ from dash.dependencies import Input, Output
 from app import app
 from Database import Api
 
-#coins=Api.coins
-df = Api.secret_api()
+coins=Api.coins
+df = Api.merge_inf(coins)
 
 
 PAGE_SIZE = 20

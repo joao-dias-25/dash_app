@@ -10,7 +10,8 @@ def Navbar():
                     dbc.DropdownMenuItem("USD tokens on Ethereum", href="https://duneanalytics.com/johnz/first"),
                     dbc.DropdownMenuItem("Gold tokens on Ethereum", href="https://duneanalytics.com/johnz/assets-on-ethereum"),
                     dbc.DropdownMenuItem(divider=True),
-                    dbc.DropdownMenuItem("DeFi", href="https://defipulse.com/"),
+                    dbc.DropdownMenuItem("DeFi", href="https://debank.com/ranking/locked_value"),
+                    dbc.DropdownMenuItem("crypto fees", href="https://cryptofees.info/"),
                     dbc.DropdownMenuItem("Top liquidity pools", href="https://pools.fyi/#/")
                 ],
                 nav=True,
